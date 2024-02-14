@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../layout/Navbar';
 import Footer from '../layout/Footer';
+import { getSession } from '../session/appSession';
+import { PROFILE_SESSION } from '../session/constant';
+import { useNavigate } from 'react-router-dom';
  
 const Home = () => {
-    return(
+
+    const [profileData,setProfileData] = React.useState([]);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const session = getSession(PROFILE_SESSION);
+        if(session){
+            setProfileData(session);
+        }else{
+            navigate('/login');
+        }
+    },[navigate]);
+ 
+    return profileData.length > 0 ? (
         <>
             <Navbar/>
                 <div className='col-md-12' style={{height:"50vh"}}>
@@ -28,7 +45,7 @@ const Home = () => {
                 </div>
             <Footer/>
         </>
-    );
+    ):<></>;
 };
 
 export default Home;

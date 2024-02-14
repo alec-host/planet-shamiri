@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import authenticateUser from './utils/signinHelper';
+import { setSession } from '../session/appSession';
+import { PROFILE_SESSION } from '../session/constant';
 
 const LoginTemplate = () => {
 
@@ -38,6 +40,7 @@ const LoginTemplate = () => {
             if(isLoggedIn){
                 inputEmail.current.value = '';
                 inputPassword.current.value = '';
+                setSession(PROFILE_SESSION,JSON.stringify(formData));
                 navigation('/');
             }else{
                 alert("Invalid credentials");

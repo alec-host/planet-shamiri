@@ -1,0 +1,3 @@
+const PROFILE_SESSION = '_PROFILE';
+
+export {PROFILE_SESSION};

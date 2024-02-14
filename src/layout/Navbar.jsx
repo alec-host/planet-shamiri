@@ -1,10 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { deleteSession } from "../session/appSession";
+import { PROFILE_SESSION } from "../session/constant";
 
 const Navbar = () => {
-    
+
     const handleLogout = () => {
-        alert('sssss');
+        deleteSession(PROFILE_SESSION);
     };
 
     return(
