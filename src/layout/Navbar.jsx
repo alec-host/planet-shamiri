@@ -1,6 +1,12 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
+    
+    const handleLogout = () => {
+        alert('sssss');
+    };
+
     return(
         <>
             <div className="lg:flex lg:items-center lg:justify-between bg-[#F8F4EE]">
@@ -13,7 +19,8 @@ const Navbar = () => {
                         </div>
                     </div>
                 </div>
-                <div className="mt-5 flex lg:ml-4 lg:mt-0">
+                <div className="mx-5 mt-5 flex lg:ml-4 lg:mt-0">
+                    <NavLink className="text-[#0474BC]" to={"/login"} onClick={handleLogout}>Sign out</NavLink>
                 </div>
             </div>
         </>
