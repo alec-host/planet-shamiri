@@ -6,12 +6,13 @@ import { PROFILE_SESSION } from '../session/constant';
 import { useNavigate } from 'react-router-dom';
 import { getCharacter, getLocations } from 'rickmortyapi';
 import generateUUID from './utils/uuidHelper';
+import DisplayResidents from '../components/DisplayResidents';
  
 const Home = () => {
 
     const [profileData,setProfileData] = React.useState([]);
     const [rickyMontyLocationData,setRickyMontyLocationData] = React.useState([]);
-    //const [rickyMontyCharacterData,setRickyMontyCharacterData] = React.useState([]);
+    const [rickyMontyResidentData,setRickyMontyResidentData] = React.useState({});
 
     const navigate = useNavigate();
 
@@ -23,36 +24,52 @@ const Home = () => {
             navigate('/login');
         }
         getLocationList();
-    },[navigate]);;
+    },[navigate]);
 
     const getLocationList = () => {
         Promise.resolve(getLocations()).then(response =>{
             setRickyMontyLocationData(response?.data.results);
-            console.log(response.data.info);
         }).catch((error) => {
             console.error('Error ',error);
         });
     };
 
-    const getResidentCharacterList = (ids) => {
-        Promise.resolve(getCharacter(ids)).then(response => {
-            console.log(response);
-        }).catch((error) => {
-            console.error('Error ',error);
-        });
-    }
+    const fetchResidentList = async(residents,locationId) => {
+       
+        const ids = extractGetParamFromCharacterURLs(residents);
+        
+        try{
+            const response = await getCharacter(ids);
+            if(Array.isArray(response.data)){
+                setRickyMontyResidentData((prevState) => ({ ...prevState, [locationId]: response.data}));
+            }else{
+                setRickyMontyResidentData((prevState) => ({ ...prevState, [locationId]: [response.data]}));
+            }
+            return response.data;
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+        
+    };
 
+    //-.extract GET param from URL.
     const extractGetParamFromCharacterURLs = (urls) => {
-        const result = urls.map(url => parseInt(url.split('/').pop()));
-        if(result && result.length > 0){
-            getResidentCharacterList(result);
-            console.log(result);
-            return result;
+        const params = urls.map(url => parseInt(url.split('/').pop()));
+        if(params && params.length > 0){
+            return params;
         }else{
-            return "None";
+            return [];
         }
     };
 
+    useEffect(() => {
+        rickyMontyLocationData.forEach((location) => {
+          fetchResidentList(location.residents,location.id);
+        });
+    }, [rickyMontyLocationData]);
+    
+    
     return profileData.length > 0 ? (
         <>
             <Navbar/> 
@@ -74,42 +91,16 @@ const Home = () => {
                                         {rickyMontyLocationData?.map((result) => (
                                             <>
                                             <div className="relative bg-white py-6 px-6 rounded-3xl w-70 my-4 shadow-xl">
-                                                <div className="px-6 rounded-3xl p-5 bg-[#011D2F]">
-                                                    {
-                                                    /*
-                                                    <img
-                                                        className="inline-block h-30 w-30 rounded-full ring-2 ring-white"
-                                                        src={result.image}
-                                                        alt={result.name}
-                                                    />
-                                                    */
-                                                    }
+                                                <div className="px-6 rounded-3xl p-1 bg-[#0474BC]">
                                                 </div>
 
                                                 <div>
-                                                    <h3 className="mt-1 text-sm font-bold text-gray-400 text-center">{result.name}</h3>
+                                                    <h3 className="mt-1 text-md font-bold text-gray-700 text-center">{result.name}</h3>
                                                 </div>
 
                                                 <hr className="mt-2"/>
 
                                                 <div className="p-2">
-                                                    {
-                                                    /*
-                                                    <div>
-                                                        <h3 className="mt-1 text-sm text-gray-900 text-start">
-                                                            {
-                                                            result.status === "Alive" ? 
-                                                            <span className="text-xs font-bold text-[#28A745]">STATUS</span>
-                                                            :
-                                                            result.status === "Dead" ?
-                                                            <span className="text-xs font-bold text-[#E10000]">STATUS</span>
-                                                            :
-                                                            <span className="text-xs font-bold text-[#0F69FF]">STATUS</span>
-                                                            }
-                                                            :{result.status}
-                                                        </h3>
-                                                    </div>
-                                                    */}
 
                                                     <div>
                                                         <h3 className="mt-1 text-sm text-gray-700 text-start">
@@ -126,9 +117,16 @@ const Home = () => {
                                                     <div>
                                                         <a key={result?.id} href={result?.url} className="group">
                                                             <h3 className="mt-1 text-sm text-gray-700 text-start">
-                                                               <span className="text-xs font-bold">RESIDENTS</span>:{extractGetParamFromCharacterURLs(result.residents)}
+                                                               <span className="text-xs font-bold">RESIDENTS</span>:
                                                             </h3>
                                                         </a>
+                                                        
+                                                        {
+                                                            rickyMontyResidentData[result.id] && rickyMontyResidentData[result.id].map((resident) => (
+                                                                <DisplayResidents residentData={resident} />
+                                                            ))
+                                                        }
+                                                       
                                                     </div>
 
                                                 </div>
