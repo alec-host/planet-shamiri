@@ -12,7 +12,7 @@ const Navbar = () => {
     return(
         <>
             <div className="lg:flex lg:items-center lg:justify-between bg-[#F8F4EE]">
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1 mt-5">
                     <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
                         <img className="h-20 w-40 mx-5" src="https://assets-global.website-files.com/6304f37ec5e0ff0b9beb4b6b/6304f3f51e1ba82f2a01eee6_Asset%201.svg" alt="logo"/>
                     </h2>
