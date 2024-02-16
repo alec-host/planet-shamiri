@@ -54,6 +54,11 @@ const Home = () => {
         
     };
 
+    const handlePaginationButtonClick = (locationData) => {
+        console.log(locationData);
+        setRickyMontyLocationData(locationData);
+    };
+
     //-.extract GET param from URL.
     const extractGetParamFromCharacterURLs = (urls) => {
         const params = urls.map(url => parseInt(url.split('/').pop()));
@@ -87,7 +92,7 @@ const Home = () => {
                             />
 
                             <div className="bg-white">
-                                <Pagination currentPage={1}/>
+                                <Pagination currentPage={1} locationsDataCallback={handlePaginationButtonClick}/>
                                 <div key={generateUUID()} className="mx-auto">
                                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
                                         {rickyMontyLocationData?.map((result) => (
@@ -137,6 +142,7 @@ const Home = () => {
                                             </>
                                         ))}
                                     </div>
+                                    <Pagination currentPage={1} locationsDataCallback={handlePaginationButtonClick}/>
                                 </div>
                             </div>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { getLocations } from "rickmortyapi";
 
 const Pagination = ( {currentPage,locationsDataCallback} ) => { 
@@ -16,26 +17,27 @@ const Pagination = ( {currentPage,locationsDataCallback} ) => {
     };
 
     const handlePreviousPage = async() => {
+        console.log(_currentPage);
         if(_currentPage > 1){
-            _setCurrentPage(previousPageNumber =>previousPageNumber - 1);
+            _setCurrentPage(previousPageNumber => previousPageNumber - 1);
         }
         getLocationList();
     };
 
     const handleNextPage = async() => {
-        if(_currentPage >= 0 && _currentPage < 42 ){
-            _setCurrentPage(previousPageNumber =>previousPageNumber + 1);
+        console.log(_currentPage);
+        if(_currentPage >= 1 && _currentPage < 7 ){
+            _setCurrentPage(previousPageNumber => previousPageNumber + 1);
         }
-
         getLocationList();
     };
 
     const getLocationList = () => {
-        Promise.resolve(getLocations( {page: _currentPage} )).then(response => {
+        Promise.resolve(getLocations( {page: _currentPage} ))?.then(response => {
             if(locationsDataCallback){
                 locationsDataCallback(response?.data.results);
             }
-            console.log(response);
+            //console.log(response);
         }).catch((error) => {
             console.error('Error ',error);
         });
@@ -46,30 +48,29 @@ const Pagination = ( {currentPage,locationsDataCallback} ) => {
             <nav className="mt-10" aria-label="Pagination">
                 <ul className="inline-flex -space-x-px">
                     <li>
-                        <a 
-                            href="/#"
+                        <button 
                             name="Prev"
                             className="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-l-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                             onClick={handleClick}
+                            disabled={_currentPage === 0}
                             >Previous
-                        </a>
+                        </button>
                     </li>
                     <li>
-                        <a 
-                            href="/#" 
-                            aria-current="page"
-                            className="bg-blue-50 border border-gray-300 text-blue-600 hover:bg-blue-100 hover:text-blue-700  py-2 px-3 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-                            >{_currentPage}
-                        </a>
+                        <button 
+                            className="bg-blue-50 border border-gray-300 text-blue-600 hover:bg-blue-100 hover:text-blue-700  py-1.5 px-3 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+                            >
+                            {_currentPage}
+                        </button>
                     </li>
                     <li>
-                        <a 
-                            href="/#"
+                        <button
                             name="Next"
-                            className="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 rounded-r-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                            className="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 rounded-r-lg leading-tight py-2 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                             onClick={handleClick}
+                            disabled={_currentPage === 8}
                             >Next
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </nav>        
