@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCharacter, getLocations } from 'rickmortyapi';
 import generateUUID from './utils/uuidHelper';
 import DisplayResidents from '../components/DisplayResidents';
+import Pagination from '../components/Pagination';
  
 const Home = () => {
 
@@ -80,14 +81,15 @@ const Home = () => {
                                 type="text"
                                 name="Search"
                                 id="Search"
-                                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-7 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 maxLength={80}
                                 placeholder="Search"
                             />
 
                             <div className="bg-white">
-                                <div key={generateUUID()} className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                                    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 xl:gap-x-8">
+                                <Pagination currentPage={1}/>
+                                <div key={generateUUID()} className="mx-auto">
+                                    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
                                         {rickyMontyLocationData?.map((result) => (
                                             <>
                                             <div className="relative bg-white py-6 px-6 rounded-3xl w-70 my-4 shadow-xl">
