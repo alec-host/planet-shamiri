@@ -11,7 +11,7 @@ const DisplayResidents = ({residentData}) => {
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1 xl:gap-x-8">
                         {residentData?.map((result) => (
                             <>
-                            <div className="relative bg-white py-6 px-6 rounded-3xl w-70 my-4 shadow-xl">
+                            <div key={result.id} className="relative bg-white py-6 px-6 rounded-3xl w-70 my-4 shadow-xl">
                                 <div className="px-6 rounded-3xl p-5 bg-[#C6C6C6]">
                                     {
                                     <img

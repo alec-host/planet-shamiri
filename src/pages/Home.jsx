@@ -92,7 +92,7 @@ const Home = () => {
                                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
                                         {rickyMontyLocationData?.map((result) => (
                                             <>
-                                            <div className="relative bg-white py-6 px-6 rounded-3xl w-70 my-4 shadow-xl">
+                                            <div key={result.id} className="relative bg-white py-6 px-6 rounded-3xl w-70 my-4 shadow-xl">
                                                 <div className="px-6 rounded-3xl p-1 bg-[#0474BC]">
                                                 </div>
 
