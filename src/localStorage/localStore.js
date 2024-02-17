@@ -16,7 +16,7 @@ const removeFromLocalStore = (key) => {
 
 export default NOTE_KEY;
 
-export  {
+export {
     saveOnLocalStore,
     readLocalStore,
     removeFromLocalStore

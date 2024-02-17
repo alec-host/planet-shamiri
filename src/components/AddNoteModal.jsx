@@ -1,11 +1,11 @@
 import React from "react";
+import { readLocalStore, saveOnLocalStore } from "../localStorage/localStore";
 
-const AddNoteModal = () => {
-
+const AddNoteModal = ({ characterId }) => {
 
     const inputNote = React.useRef(null);
+    const inputCharacterId = React.useRef(null);
     const [showModal, setShowModal] = React.useState(false);
-
 
     const ModalButton = () => {
         return (
@@ -24,12 +24,31 @@ const AddNoteModal = () => {
         e.preventDefault();
 
         const formData = {};
-        formData.note = inputNote?.current.value;
-        formData.user_id = 1;
 
-        console.log(formData);
+        formData.user_id = inputCharacterId?.current.value;
+        formData.note = inputNote?.current.value;
+       
+        const _id = inputCharacterId?.current.value;
+
+        const hasNote = readLocalStore(_id);
+
+        if(hasNote){
+            saveNote(_id,formData);
+        }else{
+            saveOnLocalStore(_id,formData);
+        }
 
         setShowModal(false);
+    };
+
+    const saveNote = (userID,formData) => {
+        const hasNote = readLocalStore(userID);
+        if(hasNote){
+            const combinedObject = [hasNote, formData ];
+            saveOnLocalStore(userID,combinedObject);
+        }else{
+            saveOnLocalStore(userID,formData);
+        }       
     };
 
     return (
@@ -63,8 +82,16 @@ const AddNoteModal = () => {
                                             maxLength={180}
                                             required
                                         />
+                                        <input 
+                                            type="hidden" 
+                                            id="CharacterId" 
+                                            name="CharacterId" 
+                                            value={characterId} 
+                                            ref={inputCharacterId}
+                                            readOnly 
+                                        />
                                 </div>
-                
+
                                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                                     <button
                                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"

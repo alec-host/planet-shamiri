@@ -95,7 +95,7 @@ const ResidentInfo = () => {
                                         </div> 
 
                                         <div className="bg-[#F8F4EE] text-right mt-3">
-                                            <AddNoteModal />
+                                            <AddNoteModal characterId={characterInfo.id} />
                                         </div>                                       
 
                                     </div>
