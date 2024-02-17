@@ -17,7 +17,7 @@ const DisplayResidents = ({residentData}) => {
                                 <div key={result.id} className="relative bg-white py-6 px-6 rounded-3xl w-70 my-4 shadow-xl">
 
                                     <div className="px-6 rounded-3xl p-5 bg-[#1C3E5C]">
-                                        <Link to={'/resident-info'}>
+                                        <Link to={`/resident-info?characterId=${result.id}`}>
                                             {
                                             <img
                                                 className="inline-block h-25 w-25 rounded-full ring-2 ring-white"
