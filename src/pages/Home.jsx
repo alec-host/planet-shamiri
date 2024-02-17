@@ -8,6 +8,7 @@ import { getCharacter, getLocations } from 'rickmortyapi';
 import generateUUID from './utils/uuidHelper';
 import DisplayResidents from '../components/DisplayResidents';
 import Pagination from '../components/Pagination';
+import LazyImage from '../components/LazyImage';
  
 const Home = () => {
 
@@ -80,11 +81,11 @@ const Home = () => {
 
     const handleOnChange = () => {
         const search = inputSearch?.current.value; 
-        console.log('search');
         filter(search);
     };
 
     const filter = (searchWord) => {
+
         let filteredList = [];
 
         if(searchWord && searchWord.length > 0){
@@ -93,7 +94,6 @@ const Home = () => {
                 (data.type && data.type?.trim().toLowerCase().includes(searchWord?.trim().toLowerCase())) ||
                 (data.dimension && data.dimension?.trim().toLowerCase().includes(searchWord?.trim().toLowerCase()))
             );
-            console.log(filteredList);
         }else{
             filteredList = [];
         }
@@ -189,9 +189,9 @@ const Home = () => {
                                                             <div className="relative bg-white py-6 px-6 rounded-3xl w-70 my-4 shadow-xl">
                                                                 <div className="px-6 rounded-3xl p-5 bg-[#DA9558]">
                                                                     {
-                                                                    <img
-                                                                        className="inline-block h-25 w-25 rounded-full ring-2 ring-white"
+                                                                    <LazyImage
                                                                         src="../../no_residents.jpg"
+                                                                        className="inline-block h-25 w-25 rounded-full ring-2 ring-white"
                                                                         alt={result?.name}
                                                                     />
                                                                     }

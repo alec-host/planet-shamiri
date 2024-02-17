@@ -3,6 +3,8 @@ import Navbar from '../layout/Navbar';
 import Footer from '../layout/Footer';
 import { getCharacter } from 'rickmortyapi';
 import Breadcrumb from '../components/Breadcrumbs';
+import LazyImage from '../components/LazyImage';
+import AddNoteModal from '../components/AddNoteModal';
 
 const ResidentInfo = () => {
 
@@ -34,7 +36,7 @@ const ResidentInfo = () => {
                                 <div className="relative bg-white py-6 px-6 rounded-3xl w-70 my-4 shadow-xl">
                                     <div className="px-6 rounded-3xl p-5 bg-[#1C3E5C]">
                                         {
-                                        <img
+                                        <LazyImage
                                             className="inline-block h-25 w-25 rounded-full ring-2 ring-white"
                                             src={characterInfo?.image}
                                             alt={characterInfo?.name}
@@ -90,7 +92,11 @@ const ResidentInfo = () => {
                                             <h3 className="mt-1 text-sm text-gray-700 text-start">
                                                 <span className="text-md font-bold">CREATED</span>: {characterInfo?.created}
                                             </h3>
-                                        </div>                                         
+                                        </div> 
+
+                                        <div className="bg-[#F8F4EE] text-right mt-3">
+                                            <AddNoteModal />
+                                        </div>                                       
 
                                     </div>
                                 </div>

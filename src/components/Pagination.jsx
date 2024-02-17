@@ -17,7 +17,6 @@ const Pagination = ( {currentPage,locationsDataCallback} ) => {
     };
 
     const handlePreviousPage = () => {
-        console.log(_currentPage);
         if(_currentPage >=2){
             _setCurrentPage(previousPageNumber => previousPageNumber - 1);
         }
@@ -25,7 +24,6 @@ const Pagination = ( {currentPage,locationsDataCallback} ) => {
     };
 
     const handleNextPage = () => {
-        console.log(_currentPage);
         if(_currentPage > 0 && _currentPage < maxPageNumber){
             _setCurrentPage(previousPageNumber => previousPageNumber + 1);
         }

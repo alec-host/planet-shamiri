@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import authenticateUser from './utils/signinHelper';
 import { setSession } from '../session/appSession';
 import { PROFILE_SESSION } from '../session/constant';
+import Alert from '../components/Alert';
 
 const LoginTemplate = () => {
 
     const inputEmail = React.useRef('');
     const inputPassword = React.useRef('');
     const [errors,setErrors] = React.useState({});
+    const [showAlert,setShowAlert] = React.useState(false);
 
     const navigation = useNavigate();
 
@@ -43,7 +45,7 @@ const LoginTemplate = () => {
                 setSession(PROFILE_SESSION,JSON.stringify(formData));
                 navigation('/');
             }else{
-                alert("Invalid credentials");
+                setShowAlert(true);
             }
         }else{
             setErrors(newErrors);
@@ -54,6 +56,7 @@ const LoginTemplate = () => {
 		<>
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                    {showAlert && <Alert alertMessage={"Invalid credentials"} isShown={setShowAlert}/>}
                     <img className="mx-auto h-6 w-auto" src="https://assets-global.website-files.com/6304f37ec5e0ff0b9beb4b6b/6304f3f51e1ba82f2a01eee6_Asset%201.svg" alt="code challenge"/>
                     <h2 className="mt-5 text-center text-sm font-bold leading-9 tracking-tight text-gray-400">Code challenge: Rick & Morty API</h2>
                 </div>
@@ -69,7 +72,7 @@ const LoginTemplate = () => {
                                     name="Email" 
                                     type="Email"
                                     ref={inputEmail}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -85,13 +88,15 @@ const LoginTemplate = () => {
                                     name="Password" 
                                     type="password"
                                     ref={inputPassword}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
 
-                        <div>
-                            <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                        <div className="text-right">
+                            <button type="submit" className="middle none center rounded-lg bg-gradient-to-tr from-green-600 to-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                                Sign in
+                            </button>
                         </div>
                     </form>
                 </div>
