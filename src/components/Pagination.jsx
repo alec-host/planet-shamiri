@@ -1,32 +1,32 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { getLocations } from "rickmortyapi";
 
 const Pagination = ( {currentPage,locationsDataCallback} ) => { 
 
+    const [maxPageNumber,setMaxPageNumber] = React.useState(null);
     const [_currentPage,_setCurrentPage] = React.useState(currentPage);
 
     const handleClick = (e) => {
         e.preventDefault();
         const {name} = e.target;
-        if(name=="Prev"){
+        if(name === "Prev"){
             handlePreviousPage();
         }else{
             handleNextPage();
         }
     };
 
-    const handlePreviousPage = async() => {
+    const handlePreviousPage = () => {
         console.log(_currentPage);
-        if(_currentPage > 1){
+        if(_currentPage >=2){
             _setCurrentPage(previousPageNumber => previousPageNumber - 1);
         }
         getLocationList();
     };
 
-    const handleNextPage = async() => {
+    const handleNextPage = () => {
         console.log(_currentPage);
-        if(_currentPage >= 1 && _currentPage < 7 ){
+        if(_currentPage > 0 && _currentPage < maxPageNumber){
             _setCurrentPage(previousPageNumber => previousPageNumber + 1);
         }
         getLocationList();
@@ -35,13 +35,15 @@ const Pagination = ( {currentPage,locationsDataCallback} ) => {
     const getLocationList = () => {
         Promise.resolve(getLocations( {page: _currentPage} ))?.then(response => {
             if(locationsDataCallback){
+                extractPageInfo(response?.data.info);
                 locationsDataCallback(response?.data.results);
             }
-            //console.log(response);
         }).catch((error) => {
             console.error('Error ',error);
         });
     };
+
+    const extractPageInfo = (resource) => { const {pages} = resource; setMaxPageNumber(pages);};
 
     return(
         <>
