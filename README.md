@@ -11,7 +11,14 @@ The following features have been implements:
 
 ## Screenshot
 
-![Login screenshot](src/screenshots/character_screenshot.PNG)
+### Login Page
+![Login_page screenshot](src/screenshots/login_screenshot.PNG)
+
+### Home Page
+![Home_page screenshot](src/screenshots/home_screenshoot.PNG)
+
+### Character Detail Page
+![Detailed_character_page screenshot](src/screenshots/character_screenshot.PNG)
 
 
 
