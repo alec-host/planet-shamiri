@@ -9,6 +9,7 @@ import generateUUID from './utils/uuidHelper';
 import DisplayResidents from '../components/DisplayResidents';
 import Pagination from '../components/Pagination';
 import LazyImage from '../components/LazyImage';
+import extractGetParamFromURLs from './utils/getParamsFromURL';
  
 const Home = () => {
 
@@ -41,7 +42,7 @@ const Home = () => {
 
     const fetchResidentList = async(residents,locationId) => {
        
-        const ids = extractGetParamFromCharacterURLs(residents);
+        const ids = extractGetParamFromURLs(residents);
         
         try{
             const response = await getCharacter(ids);
@@ -61,16 +62,6 @@ const Home = () => {
     const handlePaginationButtonClick = (locationData) => {
         setRickyMontyLocationData(locationData);
         setFilterRickMontyLocattionData(locationData);
-    };
-
-    //-.extract GET param from URL.
-    const extractGetParamFromCharacterURLs = (urls) => {
-        const params = urls.map(url => parseInt(url.split('/').pop()));
-        if(params && params.length > 0){
-            return params;
-        }else{
-            return [];
-        }
     };
 
     useEffect(() => {
