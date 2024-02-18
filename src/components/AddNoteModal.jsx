@@ -7,6 +7,15 @@ const AddNoteModal = ({ characterId }) => {
     const inputCharacterId = React.useRef(null);
     const [showModal, setShowModal] = React.useState(false);
 
+    const handleClick = () => {
+        const userId = readLocalStore(characterId);
+        if(userId !== null){
+            alert(JSON.stringify(readLocalStore(characterId)));
+        }else{
+            alert('No notes');
+        }
+    };
+
     const ModalButton = () => {
         return (
             <>
@@ -14,8 +23,14 @@ const AddNoteModal = ({ characterId }) => {
                     className="middle none center mr-4 rounded-lg bg-gradient-to-tr from-green-600 to-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
                     onClick={() => setShowModal(true)}>
-                    add a note
+                    add note
                 </button>
+                <button
+                    className="middle none center mr-0 rounded-lg bg-gradient-to-tr from-gray-600 to-gray-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    type="button"
+                    onClick={handleClick}>
+                    view note
+                </button>                
             </>
         );
     };
@@ -62,7 +77,7 @@ const AddNoteModal = ({ characterId }) => {
                         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                         
                             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                                <h3 className="text-3xl font-semibold">Add Note</h3>
+                                <h3 className="text-2xl font-semibold">Add Note</h3>
                                 <button
                                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                     onClick={() => setShowModal(false)}>
