@@ -14,19 +14,29 @@ The following features have been implements:
 
 The design considerations incoporated in this assigment includes:
 
-1. Component-based Architecture 
+1. __Component-based Architecture__ 
+
     I have broken down UI into resusable components with a single responsibility.
-2. Responsive Design 
+
+2. __Responsive Design__ 
+
     The application is responsive accross different devices & screen sizes. I have utilised Tailwind CSS responsive utility classes to adapt to different UI.
-3. Performance Optimization
+
+3. __Performance Optimization__
+
     I have adopted optimization technique such as lazy loading to reducing rendering time.
-4. Routing
-    Implemented routing using React Router which defines for different views & handle navigation within the web application.
-5. State managment: 
-6. Error handling:
-    I have implemented mechanism to handle errors and prevernt the application from crashing.
-7. Scalability and Maintainability
-    The application codebase is organised in a modular fashion & contained in different directory structure to facilitate in future development & enhancement. The directories are structured as follows:
+
+4. __Routing__
+
+    Implemented routing using React Router which defines routes for different views & handle navigation within the application.
+
+5. __Error handling__
+
+    I have implemented mechanism to handle errors and prevent the application from crashing.
+
+6. __Scalability and Maintainability__
+
+    The codebase is organised in a modular fashion & contained in different directores which will facilitate future development & enhancement. The directories are structured as follows:
 
     - components
     - layout
@@ -53,13 +63,13 @@ The design considerations incoporated in this assigment includes:
 ## Resources
 
 1. Ricky Monty's API documentation
+
 https://rickandmortyapi.com/
 
 2. React
+
 https://react.dev/reference/react
 
 3. Tailwindcss
+
 https://tailwindcss.com/
-
-
-
