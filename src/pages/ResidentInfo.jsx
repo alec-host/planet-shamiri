@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Navbar from '../layout/Navbar';
 import Footer from '../layout/Footer';
-import { getCharacter } from 'rickmortyapi';
+import { getCharacter, getEpisode } from 'rickmortyapi';
 import Breadcrumb from '../components/Breadcrumbs';
 import LazyImage from '../components/LazyImage';
 import AddNoteModal from '../components/AddNoteModal';
@@ -9,10 +9,12 @@ import { getSession } from '../session/appSession';
 import { PROFILE_SESSION } from '../session/constant';
 import { useNavigate } from 'react-router-dom';
 import formatDate from './utils/formatDate';
+import extractGetParamFromURLs from './utils/getParamsFromURL';
 
 const ResidentInfo = () => {
 
     const [profileData,setProfileData] = React.useState([]);
+    const [episode,setEpisode] = React.useState([]);
     const [characterInfo,setCharacterInfo] = React.useState([]);
 
     const navigate = useNavigate();
@@ -35,6 +37,27 @@ const ResidentInfo = () => {
             console.log('ERROR ',error);
         }))
     };
+
+    const getEpisodeFeatured = (episode) => {
+        const ids = extractGetParamFromURLs(episode); 
+        Promise.resolve(getEpisode(ids)).then((response) => {
+            if (Array.isArray(response.data)) {
+                const episodeList = response.data.map(item => `${item.episode} - ${item.name}`).join(", ");
+                setEpisode(episodeList);
+            }else{
+                const episodeList = `${response?.data.episode} - ${response?.data.name}`;
+                setEpisode(episodeList);
+            }
+        }).catch((error => {
+            console.log('ERROR ',error);
+        }));
+    };
+
+    useEffect(() => {
+        [characterInfo].forEach((data) => {
+            getEpisodeFeatured(data.episode);
+        });
+    },[characterInfo]);
 
     return profileData.length > 0 ? (
 		<>
@@ -106,9 +129,18 @@ const ResidentInfo = () => {
                                             </h3>
                                         </div> 
 
+                                        <div>
+                                            <h3 className="mt-1 text-sm text-gray-700 text-start">
+                                                <span className="text-md font-bold"> EPISODE FEATURED</span>: 
+                                                {
+                                                    episode && characterInfo.episode && (<>{episode}</>)
+                                                }
+                                            </h3>
+                                        </div> 
+
                                         <div className="bg-[#F8F4EE] text-right mt-3">
                                             <AddNoteModal characterId={characterInfo.id} />
-                                        </div>                                       
+                                        </div>                                      
 
                                     </div>
                                 </div>
