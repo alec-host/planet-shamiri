@@ -56,7 +56,7 @@ I opted to persist a note against a character on localStorage which is informed 
 Overall, localStorage is a versatile client-side storage mechanism that improves performance & user experience that enables offline functionality and state management.
 
 
-### Credentials
+### Login Credentials
 
 Email: __admin@admin.com__
 Password: __admin__
