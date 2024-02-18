@@ -45,6 +45,17 @@ The design considerations incoporated in this assigment includes:
     - localStorage
     - css
 
+### Database
+
+I opted to persist a note against a character on localStorage which is informed by the following:
+
+- No access to a remote database.
+- Data is persisted on localStorage even after the browser is closed.
+- Provides an offline support to cache data.
+
+Overall, localStorage is a versatile client-side storage mechanism that improves performance & user experience that enables offline functionality and state management.
+
+
 ## Screenshot
 
 **Login Page**
