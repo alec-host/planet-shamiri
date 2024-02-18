@@ -116,7 +116,8 @@ const Home = () => {
                                     type="text"                                
                                     id="Search" 
                                     name="Search"
-                                    className="w-full bg-white pl-2 text-base font-semibold outline-0"  
+                                    className="w-full bg-white pl-2 text-base font-semibold outline-0" 
+                                    placeholder={"Search Location By: Name, Type, Origin, Dimension"} 
                                     maxLength={80} 
                                     ref={inputSearch}
                                 />

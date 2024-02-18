@@ -1,7 +1,7 @@
 const authenticateUser = (credentials) => {
     console.log(credentials.email,credentials.password);
     if(credentials){
-        if(credentials.email === "supadmin@net.com" && credentials.password === "12345678"){
+        if(credentials.email === "admin@admin.com" && credentials.password === "admin"){
             return true;
         }else{
             return false;

@@ -5,26 +5,38 @@ import { getCharacter } from 'rickmortyapi';
 import Breadcrumb from '../components/Breadcrumbs';
 import LazyImage from '../components/LazyImage';
 import AddNoteModal from '../components/AddNoteModal';
+import { getSession } from '../session/appSession';
+import { PROFILE_SESSION } from '../session/constant';
+import { useNavigate } from 'react-router-dom';
+import formatDate from './utils/formatDate';
 
 const ResidentInfo = () => {
 
+    const [profileData,setProfileData] = React.useState([]);
     const [characterInfo,setCharacterInfo] = React.useState([]);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
+        const session = getSession(PROFILE_SESSION);
+        if(session){
+            setProfileData(session);
+        }else{
+            navigate('/login');
+        }
         getIndividualCharacterInformation();
-    },[]);
+    },[navigate]);
 
     const getIndividualCharacterInformation = () => {
         const characterId = new URLSearchParams(window?.location?.search).get('characterId');
         Promise.resolve(getCharacter(parseInt(characterId))).then((response) => {
             setCharacterInfo(response?.data);
-            console.log(response.data);
         }).catch((error =>{
             console.log('ERROR ',error);
         }))
     };
 
-    return(
+    return profileData.length > 0 ? (
 		<>
             <Navbar/>
                 <div className="bg-white py-24 sm:py-15">
@@ -90,7 +102,7 @@ const ResidentInfo = () => {
 
                                         <div>
                                             <h3 className="mt-1 text-sm text-gray-700 text-start">
-                                                <span className="text-md font-bold">CREATED</span>: {characterInfo?.created}
+                                                <span className="text-md font-bold">CREATED</span>: {formatDate(characterInfo?.created)}
                                             </h3>
                                         </div> 
 
@@ -108,7 +120,7 @@ const ResidentInfo = () => {
                 </div> 
             <Footer/>       
 		</>
-    );
+    ):<></>;
 };
 
 export default ResidentInfo;

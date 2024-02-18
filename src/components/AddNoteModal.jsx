@@ -6,13 +6,14 @@ const AddNoteModal = ({ characterId }) => {
     const inputNote = React.useRef(null);
     const inputCharacterId = React.useRef(null);
     const [showModal, setShowModal] = React.useState(false);
+    const [viewDisplay,setViewDisplay] = React.useState(0);
+    
 
-    const handleClick = () => {
-        const userId = readLocalStore(characterId);
-        if(userId !== null){
-            alert(JSON.stringify(readLocalStore(characterId)));
+    const handleClick = (buttonClicked) => {
+        if(buttonClicked === 0) {
+            setViewDisplay(buttonClicked);
         }else{
-            alert('No notes');
+            setViewDisplay(buttonClicked);
         }
     };
 
@@ -22,13 +23,13 @@ const AddNoteModal = ({ characterId }) => {
                 <button
                     className="middle none center mr-4 rounded-lg bg-gradient-to-tr from-green-600 to-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
-                    onClick={() => setShowModal(true)}>
+                    onClick={() => {handleClick(1);setShowModal(true)}}>
                     add note
                 </button>
                 <button
                     className="middle none center mr-0 rounded-lg bg-gradient-to-tr from-gray-600 to-gray-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
-                    onClick={handleClick}>
+                    onClick={() =>{handleClick(0);setShowModal(true)}}>
                     view note
                 </button>                
             </>
@@ -66,6 +67,51 @@ const AddNoteModal = ({ characterId }) => {
         }       
     };
 
+    const extractNotes = (array) => {
+        const notes = [];
+      
+        const extractNotesRecursive = (arr, prefix = '-') => {
+          arr.forEach((item) => {
+            if (Array.isArray(item)) {
+              extractNotesRecursive(item,`${prefix}`);
+            } else if (item.hasOwnProperty('note')) {
+              notes.push(`${prefix} ${item.note}`);
+            }
+          });
+        };
+
+        extractNotesRecursive(array);
+        
+        return notes.join("%");
+      }
+
+    const diplayNotes = () => {
+        let notes = "";
+        const noteObject = readLocalStore(characterId);
+        if(noteObject){
+            if(Array.isArray(noteObject)){
+                notes = extractNotes(noteObject);
+            }else{
+                notes = "-"+noteObject.note;
+            }
+        }
+
+        return notes;
+    };
+
+    const CloseButton = () => {
+        return(
+            <>
+                <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowModal(false)}>
+                        Close
+                </button>            
+            </>
+        );
+    };
+
     return (
         <>
             <ModalButton />
@@ -77,7 +123,7 @@ const AddNoteModal = ({ characterId }) => {
                         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                         
                             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                                <h3 className="text-2xl font-semibold">Add Note</h3>
+                                <h3 className="text-2xl font-semibold">{ viewDisplay && viewDisplay === 1 ? "Add Note" : "View Note"}</h3>
                                 <button
                                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                     onClick={() => setShowModal(false)}>
@@ -85,43 +131,57 @@ const AddNoteModal = ({ characterId }) => {
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit}>
-                                <div className="relative p-6 flex-auto">
-                                        <textarea
-                                            id="Note"
-                                            name="Note"
-                                            rows={8}
-                                            cols={40}
-                                            className="p-2 border border-solid border-blue-700"
-                                            ref={inputNote}
-                                            maxLength={180}
-                                            required
-                                        />
-                                        <input 
-                                            type="hidden" 
-                                            id="CharacterId" 
-                                            name="CharacterId" 
-                                            value={characterId} 
-                                            ref={inputCharacterId}
-                                            readOnly 
-                                        />
-                                </div>
+                            {
+                                viewDisplay && viewDisplay === 1 ?
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="relative p-6 flex-auto">
+                                                <textarea
+                                                    id="Note"
+                                                    name="Note"
+                                                    rows={8}
+                                                    cols={40}
+                                                    className="p-2 border border-solid border-blue-700"
+                                                    ref={inputNote}
+                                                    maxLength={180}
+                                                    required
+                                                />
+                                                <input 
+                                                    type="hidden" 
+                                                    id="CharacterId" 
+                                                    name="CharacterId" 
+                                                    value={characterId} 
+                                                    ref={inputCharacterId}
+                                                    readOnly 
+                                                />
+                                        </div>
 
-                                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                                    <button
-                                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                        type="button"
-                                        onClick={() => setShowModal(false)}>
-                                            Close
-                                    </button>
-                                    <button
-                                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                        type="submit">
-                                            Save
-                                    </button>
-                                </div>
-                            </form>
-
+                                        <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                            <CloseButton />
+                                            <button
+                                                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                type="submit">
+                                                    Save
+                                            </button>
+                                        </div>
+                                    </form>
+                                :
+                                <>
+                                    <div className="relative p-6 ">
+                                        <p>
+                                            <textarea
+                                                rows={8}
+                                                cols={40}
+                                                className="p-2 border border-solid border-blue-700"
+                                                defaultValue={(diplayNotes().toString().replaceAll("%","\n"))}
+                                                readOnly
+                                            />
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                        <CloseButton />
+                                    </div>
+                                </>
+                            }
                         </div>
                     </div>
                 </div>
